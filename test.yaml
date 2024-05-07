@@ -1,0 +1,13 @@
+---
+- name: Play with Ansible
+  hosts: all
+  tasks:
+  - name: show remote host
+    ansible.builtin.debug:
+      msg: "the remote server is {{ ansible_host }}"
+  - name: Just execute df -h
+    ansible.builtin.command: df -h
+    register: output
+  - name: Show stdout
+    ansible.builtin.debug:
+      msg: "{{ output.stdout_lines }}"
