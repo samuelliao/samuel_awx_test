@@ -1,16 +1,47 @@
 - name: test stat module
   hosts: all
   tasks:
-    - name: test stat module on file
-      win_stat: path="C:/Windows/win.ini"
-      register: stat_file
+    - name: Ensure 7-Zip is installed through Chocolatey
+  win_chocolatey:
+    name: 7zip
+    state: present
 
-    - debug: var=stat_file
+    - name: Ensure 7-Zip is not installed through Chocolatey
+      win_chocolatey:
+        name: 7zip
+        state: absent
 
-    - name: check stat_file result
-      assert:
-          that:
-             - "stat_file.stat.exists"
-             - "not stat_file.stat.isdir"
-             - "stat_file.stat.size > 0"
-             - "stat_file.stat.md5"
+    # Install/uninstall with win_package
+    - name: Download the 7-Zip package
+      win_get_url:
+        url: https://www.7-zip.org/a/7z2301-x64.msi
+        dest: C:\temp\7z.msi
+
+    - name: Ensure 7-Zip is installed through win_package
+      win_package:
+        path: C:\temp\7z.msi
+        state: present
+
+    - name: Ensure 7-Zip is not installed through win_package
+      win_package:
+        path: C:\temp\7z.msi
+        state: absent
+
+    # Install/uninstall with win_command
+    - name: Download the 7-Zip package
+      win_get_url:
+        url: https://www.7-zip.org/a/7z2301-x64.msi
+        dest: C:\temp\7z.msi
+
+    - name: Check if 7-Zip is already installed
+      win_reg_stat:
+        name: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{23170F69-40C1-2702-1701-000001000000}
+      register: 7zip_installed
+
+    - name: Ensure 7-Zip is installed through win_command
+      win_command: C:\Windows\System32\msiexec.exe /i C:\temp\7z.msi /qn /norestart
+      when: 7zip_installed.exists == false
+
+    - name: Ensure 7-Zip is uninstalled through win_command
+      win_command: C:\Windows\System32\msiexec.exe /x {23170F69-40C1-2702-1701-000001000000} /qn /norestart
+      when: 7zip_installed.exists == true
