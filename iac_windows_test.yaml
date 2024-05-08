@@ -1,5 +1,5 @@
 - name: test stat module
-  hosts: win2022
+  hosts: Win2022
   tasks:
     - name: test stat module on file
       win_stat: path="C:/Windows/win.ini"
