@@ -1,0 +1,19 @@
+# ref: https://github.com/ansible/awx-ee?tab=readme-ov-file
+# Need to install ansible-builder first
+# pip instal ansible-builder
+
+# Get the awx-ee source from github
+# like using git clone or others command.
+# then add any galaxy collection's value in execution-environment.yml
+# Use ansible-build to build up the cutomized immage
+ansible-builder build -v3 -t awx-ee-samuel
+
+#$ Tag the docker image
+docker tag awx-ee-samuel samuel19906/awx-ee-ansible-galaxy
+
+# login dokcer hub
+docker login docker.io
+
+docker push samuel19906/awx-ee-ansible-galaxy:latest
+
+
