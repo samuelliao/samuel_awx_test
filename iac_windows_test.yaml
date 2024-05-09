@@ -37,12 +37,12 @@
       win_reg_stat:
         path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall
         name: 7-zip
-      register: 7zipinstalled
+      register: installed7zip
 
     - name: Ensure 7-Zip is installed through win_command
       win_command: C:\Windows\System32\msiexec.exe /i C:\temp\7z.msi /qn /norestart
-      when: 7zipinstalled.exists == false
+      when: installed7zip.exists == false
 
     - name: Ensure 7-Zip is uninstalled through win_command
       win_command: C:\Windows\System32\msiexec.exe /x 7-zip /qn /norestart
-      when: 7zipinstalled.exists == true
+      when: installed7zip.exists == true
