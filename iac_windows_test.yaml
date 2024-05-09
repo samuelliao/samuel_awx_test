@@ -35,7 +35,8 @@
 
     - name: Check if 7-Zip is already installed
       win_reg_stat:
-        name: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\7-zip
+        path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall
+        name: 7-zip
       register: 7zip_installed
 
     - name: Ensure 7-Zip is installed through win_command
