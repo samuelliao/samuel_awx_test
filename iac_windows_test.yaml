@@ -35,7 +35,7 @@
 
     - name: Check if 7-Zip is already installed
       win_reg_stat:
-        name: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{23170F69-40C1-2702-1701-000001000000}
+        name: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\7-zip
       register: 7zip_installed
 
     - name: Ensure 7-Zip is installed through win_command
@@ -43,5 +43,5 @@
       when: 7zip_installed.exists == false
 
     - name: Ensure 7-Zip is uninstalled through win_command
-      win_command: C:\Windows\System32\msiexec.exe /x {23170F69-40C1-2702-1701-000001000000} /qn /norestart
+      win_command: C:\Windows\System32\msiexec.exe /x 7-zip /qn /norestart
       when: 7zip_installed.exists == true
