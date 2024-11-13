@@ -1,6 +1,6 @@
 ---
 - name: Play with Ansible
-  hosts: {{ variable_host }}
+  hosts: "{{ ansible_host }}"
   tasks:
   - name: show remote host
     ansible.builtin.debug:
