@@ -1,5 +1,6 @@
 - name: test stat module
   hosts: all
+  gather_facts: no
   tasks:
     - name: Ensure 7-Zip is installed through Chocolatey
       win_chocolatey:
