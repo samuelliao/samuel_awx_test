@@ -6,7 +6,7 @@
     ansible.builtin.debug:
       msg: "the remote server is {{ ansible_host }}"
   - name: Just execute df -h
-    ansible.builtin.command: df -hasdf
+    ansible.builtin.command: df -h
     register: output
   - name: Show stdout
     ansible.builtin.debug:
